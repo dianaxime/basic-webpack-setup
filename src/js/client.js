@@ -334,8 +334,8 @@ const render = (mount, state) => {
                 if (Turn){
                     APP_STATE.Board[indice] = 1;
                     APP_STATE.Turn = !Turn;
-                    vertical_abajo( 1, indice);
-                    vertical_arriba( 1, indice);
+                    vertical_abajo(1, indice);
+                    vertical_arriba(1, indice);
                     horizontal_izquierda(1, indice);
                     horizontar_derecha(1, indice);
                     diagonal_abajo_derecha(1, indice);
@@ -478,8 +478,18 @@ const render = (mount, state) => {
         state.Board.map((celda, indice) => renderCasilla({celda, indice})).forEach(casilla => tablero.appendChild(casilla));
         return tablero;
     }
-    
-    
+    if ((cuenta_blancas+cuenta_negras)===64){
+        if (cuenta_negras > cuenta_blancas){
+            alert("Jugador 1 GANO");
+        }
+        else if (cuenta_negras === cuenta_blancas){
+            alert("Empate")
+        }
+        else{
+            alert("Jugador 2 GANO")
+        }
+    }
+
     info.appendChild(render_tablero());
     mount.appendChild(info);
     
