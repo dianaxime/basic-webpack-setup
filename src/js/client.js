@@ -126,10 +126,8 @@ const render = (mount, state) => {
     }
     const horizontar_derecha = (celda, indice) => {
         let i_final=null;
-        console.log("Hola");
         for (var i=indice+1; i<64; i++){
             if (parseInt(indice/8) === parseInt(i/8)){
-                console.log(i);
                 if (state.Board[i]===celda){
                     i_final=i; 
                     break;
@@ -164,6 +162,138 @@ const render = (mount, state) => {
         if (i_final !== null){
             for (var e=indice; e>i_final; e--){
                 if (parseInt(indice/8) === parseInt(e/8) && state.Board[e]!==0){
+                    state.Board[e]=celda;
+                }
+            }
+        }
+    }
+
+    const diagonal_abajo_derecha = (celda, indice) => {
+        let i_final=null;
+        let y=parseInt(indice/8)+1;
+        let x=indice%8+1;
+        let n_indice=null;
+        for (var i=indice+1; i<64; i++){
+            n_indice=(y*8)+x;
+            if (i === n_indice){
+                x++;
+                y++;
+                if (state.Board[i]===celda){
+                    i_final=i; 
+                    break;
+                }
+                if (state.Board[i]===0){
+                    break;
+                }
+            }
+        }
+        y=parseInt(indice/8)+1;
+        x=indice%8+1;
+        if (i_final !== null){
+            for (var e=indice; e<i_final; e++){
+                n_indice=(y*8)+x;
+                if (e===n_indice && state.Board[e]!==0){
+                    x++;
+                    y++;
+                    state.Board[e]=celda;
+                }
+            }
+        }
+    }
+
+    const diagonal_abajo_izquierda = (celda, indice) => {
+        let i_final=null;
+        let y=parseInt(indice/8)+1;
+        let x=indice%8-1;
+        let n_indice=null;
+        for (var i=indice+1; i<64; i++){
+            n_indice=(y*8)+x;
+            if (i === n_indice){
+                x--;
+                y++;
+                if (state.Board[i]===celda){
+                    i_final=i; 
+                    break;
+                }
+                if (state.Board[i]===0){
+                    break;
+                }
+            }
+        }
+        y=parseInt(indice/8)+1;
+        x=indice%8-1;
+        if (i_final !== null){
+            for (var e=indice; e<i_final; e++){
+                n_indice=(y*8)+x;
+                if (e===n_indice && state.Board[e]!==0){
+                    x--;
+                    y++;
+                    state.Board[e]=celda;
+                }
+            }
+        }
+    }
+
+    const diagonal_arriba_derecha = (celda, indice) => {
+        let i_final=null;
+        let y=parseInt(indice/8)-1;
+        let x=indice%8-1;
+        let n_indice=null;
+        for (var i=indice-1; i>0; i--){
+            n_indice=(y*8)+x;
+            if (i === n_indice){
+                x--;
+                y--;
+                if (state.Board[i]===celda){
+                    i_final=i; 
+                    break;
+                }
+                if (state.Board[i]===0){
+                    break;
+                }
+            }
+        }
+        y=parseInt(indice/8)-1;
+        x=indice%8-1;
+        if (i_final !== null){
+            for (var e=indice; e>i_final; e--){
+                n_indice=(y*8)+x;
+                if (e===n_indice && state.Board[e]!==0){
+                    x--;
+                    y--;
+                    state.Board[e]=celda;
+                }
+            }
+        }
+    }
+
+    const diagonal_arriba_izquierda = (celda, indice) => {
+        let i_final=null;
+        let y=parseInt(indice/8)-1;
+        let x=indice%8+1;
+        let n_indice=null;
+        for (var i=indice-1; i>0; i--){
+            n_indice=(y*8)+x;
+            if (i === n_indice){
+                x++;
+                y--;
+                if (state.Board[i]===celda){
+                    i_final=i; 
+                    break;
+                }
+                if (state.Board[i]===0){
+                    break;
+                }
+            }
+        }
+        y=parseInt(indice/8)-1;
+        x=indice%8+1;
+        if (i_final !== null){
+            for (var e=indice; e>i_final; e--){
+                n_indice=(y*8)+x;
+                if (e===n_indice && state.Board[e]!==0){
+                    x++;
+                    y--;
                     state.Board[e]=celda;
                 }
             }
@@ -208,6 +338,10 @@ const render = (mount, state) => {
                     vertical_arriba( 1, indice);
                     horizontal_izquierda(1, indice);
                     horizontar_derecha(1, indice);
+                    diagonal_abajo_derecha(1, indice);
+                    diagonal_arriba_derecha(1, indice);
+                    diagonal_abajo_izquierda(1, indice);
+                    diagonal_arriba_izquierda(1, indice);
                     root.innerHTML = '';
                     render(root, APP_STATE);
                 }
@@ -218,6 +352,10 @@ const render = (mount, state) => {
                     vertical_arriba(-1, indice);
                     horizontal_izquierda(-1, indice);
                     horizontar_derecha(-1, indice);
+                    diagonal_abajo_derecha(-1, indice);
+                    diagonal_arriba_derecha(-1, indice);
+                    diagonal_abajo_izquierda(-1, indice);
+                    diagonal_arriba_izquierda(-1, indice);
                     root.innerHTML = '';
                     render(root, APP_STATE);
                 }
